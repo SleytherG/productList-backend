@@ -1,10 +1,7 @@
 package com.productsapp.products.management.service.impl;
 
 import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.CollectionReference;
-import com.google.cloud.firestore.DocumentSnapshot;
-import com.google.cloud.firestore.QuerySnapshot;
-import com.google.cloud.firestore.WriteResult;
+import com.google.cloud.firestore.*;
 import com.productsapp.products.management.dto.ProductDTO;
 import com.productsapp.products.management.firebase.FirebaseInitializer;
 import com.productsapp.products.management.service.ProductManagementService;
@@ -27,7 +24,7 @@ public class ProductManagementServiceImpl implements ProductManagementService {
         List<ProductDTO> response = new ArrayList<>();
         ProductDTO product;
 
-        ApiFuture<QuerySnapshot> querySnapshotApiFuture = getCollection().get();
+        ApiFuture<QuerySnapshot> querySnapshotApiFuture = getCollection().orderBy("nombre", Query.Direction.ASCENDING).get();
 
         try {
             for (DocumentSnapshot documentSnapshot : querySnapshotApiFuture.get().getDocuments() ) {
